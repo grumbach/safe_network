@@ -676,12 +676,12 @@ impl NetworkBuilder {
             blocklist: libp2p::allow_block_list::Behaviour::default(),
             relay_client: relay_behaviour,
             relay_server,
-            mdns,
             #[cfg(feature = "upnp")]
             upnp,
             request_response,
             kademlia,
             identify,
+            mdns,
         };
 
         let swarm_config = libp2p::swarm::Config::with_tokio_executor()
