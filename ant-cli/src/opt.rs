@@ -19,12 +19,6 @@ use std::time::Duration;
 #[command(disable_version_flag = true)]
 #[command(author, version, about, long_about = None)]
 pub(crate) struct Opt {
-    /// Specify whether the cli is operating with a local network.
-    ///
-    /// This is used to run the cli against a local test network.
-    #[clap(long, default_value_t = false)]
-    pub local: bool,
-
     /// Available sub commands.
     #[clap(subcommand)]
     pub command: Option<SubCmd>,

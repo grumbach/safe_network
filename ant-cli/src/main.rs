@@ -72,7 +72,7 @@ async fn main() -> Result<()> {
     }
 
     let _log_guards = init_logging_and_metrics(&opt)?;
-    if opt.local {
+    if opt.peers.local {
         tokio::spawn(init_metrics(std::process::id()));
     }
 

@@ -14,7 +14,7 @@ mod subcommands;
 
 use crate::subcommands::EvmNetworkCommand;
 use ant_bootstrap::{BootstrapCacheConfig, BootstrapCacheStore, PeersArgs};
-use ant_evm::{get_evm_network_from_env, EvmNetwork, RewardsAddress};
+use ant_evm::{get_evm_network_from_env, local_evm_network_from_csv, EvmNetwork, RewardsAddress};
 use ant_logging::metrics::init_metrics;
 use ant_logging::{Level, LogFormat, LogOutputDest, ReloadHandle};
 use ant_node::{Marker, NodeBuilder, NodeEvent, NodeEventsReceiver};
@@ -262,12 +262,16 @@ fn main() -> Result<()> {
         return Ok(());
     }
 
-    let evm_network: EvmNetwork = opt
-        .evm_network
-        .as_ref()
-        .cloned()
-        .map(|v| Ok(v.into()))
-        .unwrap_or_else(get_evm_network_from_env)?;
+    let evm_network: EvmNetwork = if opt.peers.local {
+        println!("Running node in local mode");
+        local_evm_network_from_csv()?
+    } else {
+        opt.evm_network
+            .as_ref()
+            .cloned()
+            .map(|v| Ok(v.into()))
+            .unwrap_or_else(get_evm_network_from_env)?
+    };
     println!("EVM network: {evm_network:?}");
 
     let node_socket_addr = SocketAddr::new(opt.ip, opt.port);
