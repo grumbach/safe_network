@@ -18,7 +18,7 @@ use tokio::time::sleep;
 use walkdir::WalkDir;
 
 // With a local evm network, and local network, run:
-// EVM_NETWORK=local cargo test --features="local" --package autonomi --test fs
+// EVM_NETWORK=local cargo test --package autonomi --test fs
 #[tokio::test]
 async fn dir_upload_download() -> Result<()> {
     let _log_appender_guard =
